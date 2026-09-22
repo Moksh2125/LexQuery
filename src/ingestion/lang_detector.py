@@ -163,6 +163,18 @@ def detect_language(text: str, top_k: int = 3) -> LanguageResult:
     if len(clean_text) > 5000:
         clean_text = clean_text[:5000]
 
+    # Kruti Dev / Legacy Hindi heuristic detection
+    # Legacy fonts map Hindi to English ASCII. FastText detects these as "English".
+    kruti_dev_keywords = ["U;k;k/kh'k", "izdj.k", "vkns'k", "U;k;ky;", "jkT;", "nhokuh", "ewy", "la[;k"]
+    if any(keyword in clean_text for keyword in kruti_dev_keywords):
+        return LanguageResult(
+            dominant_language="hi",
+            dominant_language_name="Hindi",
+            dominant_confidence=0.99,
+            secondary_languages=[],
+            detected_scripts=["Latin (Kruti Dev Legacy)"],
+        )
+
     try:
         model = _get_model()
         predictions = model.predict(clean_text, k=top_k)
