@@ -79,16 +79,16 @@ class Parties(BaseModel):
 
 class CourtMetadata(BaseModel):
     """Structured metadata extracted from a court judgment document."""
-    case_number: str = Field(
-        ...,
+    case_number: Optional[str] = Field(
+        default="Unknown",
         description="Primary case number (e.g., 'Criminal Appeal No. 123/2024')"
     )
     cnr_number: Optional[str] = Field(
         default=None,
         description="CNR (Case Number Record) number if available"
     )
-    court_name: str = Field(
-        ...,
+    court_name: Optional[str] = Field(
+        default="Unknown",
         description="Name of the court (e.g., 'High Court of Gujarat')"
     )
     parties: Parties = Field(
