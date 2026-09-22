@@ -17,6 +17,7 @@ data/tesseract-setup.exe
 data/chromadb*/
 data/outputs/
 data/chroma_index/
+data/temp/
 .cache/
 
 # Virtual Environments
