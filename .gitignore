@@ -1,0 +1,29 @@
+# Environment variables (CRITICAL: Do not commit API keys!)
+.env
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Large binaries and setup files
+*.bin
+*.exe
+data/models/
+data/tesseract-setup.exe
+
+# Data and Vector DB caches
+data/chromadb*/
+data/outputs/
+data/chroma_index/
+.cache/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Scratch and Logs
+*.log
+scratch/
