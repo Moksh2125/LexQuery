@@ -9,7 +9,7 @@ import logging
 import os
 import urllib.request
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -24,7 +24,7 @@ class LanguageResult(BaseModel):
     dominant_language: str = Field(..., description="ISO 639-1 code of dominant language")
     dominant_language_name: str = Field(..., description="Human-readable language name")
     dominant_confidence: float = Field(..., description="Confidence score 0-1")
-    secondary_languages: List[Dict[str, float]] = Field(
+    secondary_languages: List[Dict[str, Any]] = Field(
         default_factory=list,
         description="List of {language_code: confidence} for secondary languages"
     )
