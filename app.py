@@ -151,10 +151,12 @@ st.markdown("""
     .chat-user {
         background: #e3f2fd;
         border-left: 4px solid #1565c0;
+        color: #1a1a2e !important;
     }
     .chat-bot {
         background: #f5f5f5;
         border-left: 4px solid #4caf50;
+        color: #1a1a2e !important;
     }
 
     /* Source expander */

@@ -188,7 +188,7 @@ def extract_metadata(
             lines = response_text.split("\n")
             response_text = "\n".join(lines[1:-1])
 
-        raw_data = json.loads(response_text)
+        raw_data = json.loads(response_text, strict=False)
 
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse Gemini JSON response: {e}")

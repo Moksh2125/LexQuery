@@ -9,7 +9,7 @@ import logging
 import os
 import urllib.request
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -24,7 +24,7 @@ class LanguageResult(BaseModel):
     dominant_language: str = Field(..., description="ISO 639-1 code of dominant language")
     dominant_language_name: str = Field(..., description="Human-readable language name")
     dominant_confidence: float = Field(..., description="Confidence score 0-1")
-    secondary_languages: List[Dict[str, float]] = Field(
+    secondary_languages: List[Dict[str, Any]] = Field(
         default_factory=list,
         description="List of {language_code: confidence} for secondary languages"
     )
@@ -162,6 +162,18 @@ def detect_language(text: str, top_k: int = 3) -> LanguageResult:
     # Truncate to first 5000 chars for efficiency
     if len(clean_text) > 5000:
         clean_text = clean_text[:5000]
+
+    # Kruti Dev / Legacy Hindi heuristic detection
+    # Legacy fonts map Hindi to English ASCII. FastText detects these as "English".
+    kruti_dev_keywords = ["U;k;k/kh'k", "izdj.k", "vkns'k", "U;k;ky;", "jkT;", "nhokuh", "ewy", "la[;k"]
+    if any(keyword in clean_text for keyword in kruti_dev_keywords):
+        return LanguageResult(
+            dominant_language="hi",
+            dominant_language_name="Hindi",
+            dominant_confidence=0.99,
+            secondary_languages=[],
+            detected_scripts=["Latin (Kruti Dev Legacy)"],
+        )
 
     try:
         model = _get_model()
